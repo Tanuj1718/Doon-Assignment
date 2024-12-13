@@ -4,33 +4,13 @@ import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { createCard, getCards } from "@/services/api";
-import { useRouter } from "next/navigation";
 
 export default function AddCoursesDemo() {
-  const [cards, setCards] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [newCardTitle, setNewCardTitle] = useState("");
   const [newCardDescription, setNewCardDescription] = useState("");
   const [newCardInstructor, setNewCardInstructor] = useState("");
   const [newCardDuration, setNewCardDuration] = useState("");
-  const router = useRouter();
 
-  const checkAdminStatus = () => {
-    const isAdminUser = true; // Replace with actual logic
-    setIsAdmin(isAdminUser);
-  };
-
-  const fetchCards = async () => {
-    try {
-      const fetchedCards = await getCards();
-      setCards(fetchedCards);
-    } catch (error) {
-      console.error("Error fetching cards:", error);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,9 +29,6 @@ export default function AddCoursesDemo() {
       setNewCardInstructor("");
       setNewCardDuration("");
       
-      // Re-fetch cards after creating a new one
-
-      fetchCards();
       window.location.reload(); 
     } catch (error) {
       console.error("Error creating card:", error);

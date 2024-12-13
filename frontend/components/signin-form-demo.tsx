@@ -4,62 +4,69 @@ import { cn } from "@/lib/utils";
 import {
   IconBrandGithub,
   IconBrandGoogle,
-  IconBrandOnlyfans,
 } from "@tabler/icons-react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { useRouter } from "next/navigation";
 import { getCards, login } from "@/services/api";
 
-
-
 export default function SigninFormDemo() {
-    const [cards, setCards] = useState([]);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [newCardTitle, setNewCardTitle] = useState("");
-    const [newCardDescription, setNewCardDescription] = useState("");
-    const router = useRouter();
-  
-    useEffect(() => {
+  const [cards, setCards] = useState<any[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
       if (token) {
         setIsLoggedIn(true);
         checkAdminStatus();
         fetchCards();
       }
-    }, []);
-  
-    const checkAdminStatus = () => {
-      // This should be implemented based on your authentication system
-      // For example, you might decode the JWT token and check for an admin role
-      const isAdminUser = true; // Replace with actual logic
-      setIsAdmin(isAdminUser);
-    };
-  
-    const fetchCards = async () => {
-      try {
-        const fetchedCards = await getCards();
-        setCards(fetchedCards);
-      } catch (error) {
-        console.error("Error fetching cards:", error);
+    }
+  }, []);
+
+  const checkAdminStatus = () => {
+    // This should be implemented based on your authentication system
+    // For example, you might decode the JWT token and check for an admin role
+    const isAdminUser = true; // Replace with actual logic
+    setIsAdmin(isAdminUser);
+  };
+
+  const fetchCards = async () => {
+    try {
+      const fetchedCards = await getCards();
+      if (Array.isArray(fetchedCards)) {
+        setCards(fetchedCards); // Only set if it's a valid array
+      } else {
+        console.error("Fetched cards are not in the expected format");
       }
-    };
+    } catch (error) {
+      console.error("Error fetching cards:", error);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const { token } = await login(username, password);
+      const response = await login(username, password);
+      if (!response || !response.token) {
+        throw new Error("Login failed: No token received");
+      }
+      const { token } = response;
       localStorage.setItem("token", token);
       setIsLoggedIn(true);
       checkAdminStatus();
       fetchCards();
-      window.location.reload();
+      router.push("/dashboard"); // Navigate to dashboard instead of reloading the page
     } catch (error) {
       console.error("Login failed:", error);
     }
   };
+
   return (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
       <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
@@ -73,12 +80,24 @@ export default function SigninFormDemo() {
         <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
           <LabelInputContainer>
             <Label htmlFor="username">Username</Label>
-            <Input id="username" placeholder="tanuj" type="text" value={username} onChange={(e) => setUsername(e.target.value)}  />
+            <Input
+              id="username"
+              placeholder="tanuj"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
           </LabelInputContainer>
         </div>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="password">Password</Label>
-          <Input id="password" placeholder="••••••••" type="password" value={password} onChange={(e) => setPassword(e.target.value)}  />
+          <Input
+            id="password"
+            placeholder="••••••••"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </LabelInputContainer>
 
         <button

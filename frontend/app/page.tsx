@@ -1,11 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { getCards, login, createCard } from "@/services/api";
 import Card from "@/components/cards-demo-2";
 import AddCoursesDemo from "@/components/add-edit-courses";
-import { div } from "framer-motion/client";
 import SigninFormDemo from "@/components/signin-form-demo";
 
 export default function Home() {
@@ -14,9 +12,6 @@ export default function Home() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [newCardTitle, setNewCardTitle] = useState("");
-  const [newCardDescription, setNewCardDescription] = useState("");
-  const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
