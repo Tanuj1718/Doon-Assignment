@@ -19,27 +19,27 @@ api.interceptors.request.use((config) => {
 });
 
 export const login = async (username: string, password: string) => {
-  const response = await api.post('/signin', { username, password });
+  const response = await api.post('/api/signin', { username, password });
   return response.data;
 };
 
 export const getCards = async () => {
-  const response = await api.get('/courses');
+  const response = await api.get('/api/courses');
   return response.data;
 };
 
 export const createCard = async (cardData: any) => {
-  const response = await api.post('/admin/courses', cardData);
+  const response = await api.post('/api/admin/courses', cardData);
   return response.data;
 };
 
 export const updateCard = async (id: string, cardData: any) => {
-  const response = await api.put(`/admin/courses/${id}`, cardData);
+  const response = await api.put(`/api/admin/courses/${id}`, cardData);
   return response.data;
 };
 
 export const deleteCard = async (id: string) => {
-  const response = await api.delete(`/admin/courses/${id}`);
+  const response = await api.delete(`/api/admin/courses/${id}`);
   return response.data;
 };
 
