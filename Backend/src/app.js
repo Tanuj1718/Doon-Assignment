@@ -5,33 +5,16 @@ dotenv.config({ path: "./.env" });
 
 const app = express();
 
-const allowedOrigins = [
-  "https://doon-assignment-oasb-ne4bh2gwo-tanujs-projects-ca8ac3a9.vercel.app", // frontend URL
-  "http://localhost:3000", // local testing
-];
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://doon-assignment-oasb-ne4bh2gwo-tanujs-projects-ca8ac3a9.vercel.app'); // Allow requests from your frontend
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Specify allowed methods
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Specify allowed headers
+  res.header('Access-Control-Allow-Credentials', 'true'); // If you need to send cookies
+  next();
+});
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow the request if the origin is in the allowedOrigins list or if it's a request with no origin (like from curl/postman)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow OPTIONS for preflight requests
-  allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
-  preflightContinue: false, // Don't pass the preflight request to the next middleware
-  optionsSuccessStatus: 200, // For legacy browser support
-};
-
-app.use(cors(corsOptions)); 
-
-// Middleware to handle JSON requests
-app.use(express.json());
-
-// Preflight OPTIONS handling (if needed)
-app.options("*", cors(corsOptions));
+// // Middleware to handle JSON requests
+// app.use(express.json());
 
 // Import your routes
 import signupRouter from "./routes/signup.routes.js";
