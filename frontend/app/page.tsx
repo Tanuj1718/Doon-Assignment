@@ -1,10 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getCards, login, createCard } from "@/services/api";
+import { getCards, login } from "@/services/api";
 import Card from "@/components/cards-demo-2";
 import AddCoursesDemo from "@/components/add-edit-courses";
 import SigninFormDemo from "@/components/signin-form-demo";
+interface CardProps {
+  _id: string,
+  instructor: string;
+  duration: string;
+  title: string;
+  isAdmin: boolean,
+  description: string;
+  onUpdate: () => void;
+  onDelete: () => void;
+}
 
 export default function Home() {
   const [cards, setCards] = useState([]);
@@ -77,7 +87,7 @@ export default function Home() {
         <AddCoursesDemo/>
       )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {cards.map((card:any) => (
+        {cards.map((card:CardProps) => (
           <Card
             key={card._id}
             {...card}

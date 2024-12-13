@@ -9,8 +9,19 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { getCards, login } from "@/services/api";
 
+interface CardProps {
+  _id: string,
+  instructor: string;
+  duration: string;
+  title: string;
+  isAdmin: boolean,
+  description: string;
+  onUpdate: () => void;
+  onDelete: () => void;
+}
+
 export default function SigninFormDemo() {
-  const [cards, setCards] = useState<any[]>([]);
+  const [cards, setCards] = useState<CardProps[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [username, setUsername] = useState("");
@@ -38,7 +49,7 @@ export default function SigninFormDemo() {
     try {
       const fetchedCards = await getCards();
       if (Array.isArray(fetchedCards)) {
-        setCards(fetchedCards); // Only set if it's a valid array
+        setCards(fetchedCards);
       } else {
         console.error("Fetched cards are not in the expected format");
       }
