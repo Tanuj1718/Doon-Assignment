@@ -12,7 +12,7 @@ export default function Home() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  console.log(setUsername, setPassword);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -48,6 +48,7 @@ export default function Home() {
       console.error("Login failed:", error);
     }
   };
+  console.log(handleLogin);
 
   const handleLogout = () => {
     localStorage.removeItem("token");

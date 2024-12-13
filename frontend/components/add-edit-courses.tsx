@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { createCard, getCards } from "@/services/api";
+import { createCard} from "@/services/api";
 
 export default function AddCoursesDemo() {
   const [newCardTitle, setNewCardTitle] = useState("");

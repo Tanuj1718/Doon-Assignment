@@ -7,7 +7,6 @@ import {
 } from "@tabler/icons-react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { useRouter } from "next/navigation";
 import { getCards, login } from "@/services/api";
 
 export default function SigninFormDemo() {
@@ -16,7 +15,7 @@ export default function SigninFormDemo() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  console.log(cards, isLoggedIn, isAdmin);
   useEffect(() => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
