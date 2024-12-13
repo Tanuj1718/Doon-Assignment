@@ -16,7 +16,6 @@ export default function SigninFormDemo() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -61,7 +60,7 @@ export default function SigninFormDemo() {
       setIsLoggedIn(true);
       checkAdminStatus();
       fetchCards();
-      router.push("/dashboard"); // Navigate to dashboard instead of reloading the page
+      window.location.reload()
     } catch (error) {
       console.error("Login failed:", error);
     }
