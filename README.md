@@ -70,13 +70,13 @@ npm run dev
 6. Access the Application
 Once both servers are running, open your browser and navigate to:
 
-Admin Login: Go to http://localhost:3000/admin and log in using:
+Admin Login: Go to http://localhost:3000 and log in using:
 
 * Username: admin0
 * Password: 123456
 
 
-User View: Go to http://localhost:3000 to browse courses.
+User View: Go to http://localhost:3000/courses to browse courses after login.
 
 ## Endpoints
 * Admin Routes

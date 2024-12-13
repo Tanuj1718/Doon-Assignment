@@ -1,14 +1,13 @@
 import express from "express";
 import cors from "cors";
-const app = express();
 import dotenv from "dotenv";
-dotenv.config({
-    path: "./.env"
-});
+dotenv.config({ path: "./.env" });
+
+const app = express();
 
 const allowedOrigins = [
   "https://doon-assignment-oasb-ne4bh2gwo-tanujs-projects-ca8ac3a9.vercel.app", // frontend URL
-  "http://localhost:3000", // testing locally
+  "http://localhost:3000", // local testing
 ];
 
 const corsOptions = {
@@ -20,16 +19,21 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow OPTIONS for preflight requests
   allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
+  preflightContinue: false, // Don't pass the preflight request to the next middleware
+  optionsSuccessStatus: 200, // For legacy browser support
 };
 
-app.use(cors(corsOptions));  // Apply the CORS configuration
+app.use(cors(corsOptions)); 
 
-// common middlewares
+// Middleware to handle JSON requests
 app.use(express.json());
 
-// Import routes
+// Preflight OPTIONS handling (if needed)
+app.options("*", cors(corsOptions));
+
+// Import your routes
 import signupRouter from "./routes/signup.routes.js";
 import signinRouter from "./routes/signin.routes.js";
 import addCourseRouter from "./routes/addCourse.routes.js";
@@ -38,6 +42,7 @@ import deleteCourseRouter from "./routes/deleteCourse.routes.js";
 import enrollInCourseRouter from "./routes/enrollInCourse.routes.js";
 import updateCourseRouter from "./routes/updateCourse.routes.js";
 
+// Use routes
 app.use('/api', signupRouter, signinRouter, addCourseRouter, getCourseRouter, deleteCourseRouter, enrollInCourseRouter, updateCourseRouter);
 
 export { app };
