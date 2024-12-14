@@ -1,5 +1,5 @@
 PORT = 
-CORS_ORIGIN = https://doon-assignment-es7cs9zq3-tanujs-projects-ca8ac3a9.vercel.app/
+CORS_ORIGIN = 
 MONGODB_URL = 
 JWT_SECRET = 
 JWT_REFRESH_TOKEN_SECRET_KEY = 

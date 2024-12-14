@@ -1,24 +1,20 @@
 import express from "express";
 import dotenv from "dotenv";
-import cors from 'cors'
-dotenv.config({ path: "./.env" });
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+dotenv.config();
 
 const app = express();
-
 // Middleware to parse JSON bodies
 app.use(express.json());
+app.use(cookieParser());
 
-// CORS Configuration
-const corsOptions = {
-  origin: process.env.CORS_ORIGIN, // Frontend URL
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-  allowedHeaders: ["Content-Type", "Authorization"],
-  optionsSuccessStatus: 204, // Response status for preflight
-};
-
-// Enable CORS
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: 'https://doon-assignment-es7cs9zq3-tanujs-projects-ca8ac3a9.vercel.app/',
+    credentials: true,
+  })
+);
 
 // Import your routes
 import signupRouter from "./routes/signup.routes.js";
