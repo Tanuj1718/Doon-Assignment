@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://doon-assignment-a3o4166bn-tanujs-projects-ca8ac3a9.vercel.app';
+const API_URL = 'https://doon-assignment-b2-hb0pbe0km-tanujs-projects-ca8ac3a9.vercel.app/?vercelToolbarCode=gxRQXxBc9UnpaZx';
 // const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'
 const api = axios.create({
   baseURL: API_URL,
