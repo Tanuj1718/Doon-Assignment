@@ -1,26 +1,24 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from 'cors'
 dotenv.config({ path: "./.env" });
 
 const app = express();
 
-// CORS middleware
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://doon-assignment-es7cs9zq3-tanujs-projects-ca8ac3a9.vercel.app/'); // Frontend URL
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed methods
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers (including Authorization)
-  res.header('Access-Control-Allow-Credentials', 'true'); // Allow credentials (cookies, etc.)
-
-  // Handle OPTIONS method (preflight requests)
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end(); // Respond to preflight request
-  }
-
-  next(); // Pass the request to the next middleware
-});
-
-// Middleware to handle JSON requests
+// Middleware to parse JSON bodies
 app.use(express.json());
+
+// CORS Configuration
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN, // Frontend URL
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 204, // Response status for preflight
+};
+
+// Enable CORS
+app.use(cors(corsOptions));
 
 // Import your routes
 import signupRouter from "./routes/signup.routes.js";
